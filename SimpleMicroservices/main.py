@@ -100,6 +100,13 @@ def update_address(address_id: UUID, update: AddressUpdate):
     addresses[address_id] = AddressRead(**stored)
     return addresses[address_id]
 
+@app.delete("/addresses/{address_id}", status_code=204)
+def delete_address(address_id: UUID):
+    if address_id not in addresses:
+        raise HTTPException(status_code=404, detail="Address not found")
+    del addresses[address_id]
+    return None
+
 # -----------------------------------------------------------------------------
 # Person endpoints
 # -----------------------------------------------------------------------------
@@ -159,6 +166,12 @@ def update_person(person_id: UUID, update: PersonUpdate):
     persons[person_id] = PersonRead(**stored)
     return persons[person_id]
 
+@app.delete("/persons/{person_id}", status_code=204)
+def delete_person(person_id: UUID):
+    if person_id not in persons:
+        raise HTTPException(status_code=404, detail="Person not found")
+    del persons[person_id]
+    return None
 
 # -----------------------------------------------------------------------------
 # Root
